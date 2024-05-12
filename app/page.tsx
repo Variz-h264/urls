@@ -54,39 +54,19 @@ export default function Home() {
 
         setShortUrl(jsonData.shortUrl)
 
-        if (loading == true) {
-          Swal.mixin({
-            toast: true,
-            position: "top-end",
-            showConfirmButton: false,
-            timer: 3000,
-            didOpen: (toast) => {
-                toast.onmouseenter = Swal.stopTimer;
-                toast.onmouseleave = Swal.resumeTimer
-            }
-          }).fire({
-              icon: "info",
-              html: `<div><h1 class='text-[#f9adfb] font-bold'>Info</h1><p class='text-white/80'>กำลังสร้างลิ้งค์ให้คุณ โปรดรอสักครู่...</p></div>`
-          })
-        }
-        
+
+        await Swal.fire({
+          title: "โปรดรอสักครู่...",
+          text: "ระบบกำลังสร้างลิ้งค์ให้คุณ",
+          icon: "info",
+          timer: 1500,
+          showCancelButton: false,
+          showConfirmButton: false,
+      })
+
 
         if (jsonData.success == true) {
-              setLoading(false)
-              Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 3000,
-                didOpen: (toast) => {
-                    toast.onmouseenter = Swal.stopTimer;
-                    toast.onmouseleave = Swal.resumeTimer
-                }
-            }).fire({
-                icon: "success",
-                html: `<div><h1 class='text-[#a5dc86] font-bold'>Success</h1><p class='text-white/80'>${jsonData.message}</p></div>`
-            })
-
+            setLoading(false)
             const confirmResult = await Swal.fire({
               title: "คุณต้องการไปที่งลิ้งค์นี้เลยไหม",
               text: `ลิ้งค์สำหรับเข้าเว็บครั้งถัดไป https://ttshort.vercel.app/${jsonData.link}`,
@@ -100,6 +80,8 @@ export default function Home() {
           if (confirmResult.isConfirmed === true) {
               return router.push(`/${jsonData.shortUrl}`)
           }
+
+          return false
         }
 
         if (jsonData.success == false) {
@@ -118,7 +100,7 @@ export default function Home() {
           })
         }
 
-        console.log(jsonData)
+        return false
       } catch (error: any) {
         console.error('Error: ' + error)
 
@@ -132,7 +114,7 @@ export default function Home() {
 
         await Swal.fire({
             title: "แจ้งเตือนผู้ใช้",
-            text: `${error.message}`,
+            text: "เหมือนว่าตอนนี้ระบบจะเกิดข้อผิดพลาดบางอย่างขึ้น กรุณาลองใหม่อีกครั้งในภายหลัง!",
             icon: "warning",
             showCancelButton: false,
             showConfirmButton: true,
@@ -181,7 +163,7 @@ export default function Home() {
         </div>
 
         {shortUrl && shortUrl.trim().length > 0 && (
-          <h1 className="text-2xl text-black/60 text-center font-medium">Go to link | <Link href={`https://ttshort.vercel.app/${shortUrl}`}><span className="text-blue-400">https://ttshort.vercel.app/{shortUrl}</span></Link></h1>
+          <h1 className="text-2xl text-black/60 text-center font-medium">Go to link | <Link href={`/${shortUrl}`}><span className="text-blue-400">https://ttshort.vercel.app/{shortUrl}</span></Link></h1>
         )}
       </div>
     </>
