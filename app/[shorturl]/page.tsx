@@ -16,7 +16,7 @@ interface shortUrl {
 }
 
 export default function Redirect ({ params }: { params: { shorturl: string } }) {
-    const [originalUrl, setOriginalUrl] = useState<string>("ไม่พบลิ้งค์ของคุณ")
+    const [originalUrl, setOriginalUrl] = useState<string>("กรุณารอสักครู่...")
     const router = useRouter()
 
     useEffect(() => {

@@ -70,7 +70,7 @@ export default function Home() {
 
           const confirmResult = await Swal.fire({
             title: "คุณต้องการไปที่งลิ้งค์นี้เลยไหม",
-            text: `ลิ้งค์สำหรับเข้าเว็บครั้งถัดไป http://localhost/${jsonData.link}`,
+            text: `ลิ้งค์สำหรับเข้าเว็บครั้งถัดไป https://ttshort.vercel.app/${jsonData.link}`,
             icon: "info",
             showCancelButton: false,
             showConfirmButton: true,
@@ -162,7 +162,7 @@ export default function Home() {
         </div>
 
         {shortUrl && shortUrl.trim().length > 0 && (
-          <h1 className="text-2xl text-black/60 text-center font-medium">Go to link | <Link href={`http://localhost:3000/${shortUrl}`}><span className="text-blue-400">http://localhost:3000/{shortUrl}</span></Link></h1>
+          <h1 className="text-2xl text-black/60 text-center font-medium">Go to link | <Link href={`https://ttshort.vercel.app/${shortUrl}`}><span className="text-blue-400">https://ttshort.vercel.app/{shortUrl}</span></Link></h1>
         )}
       </div>
     </>
