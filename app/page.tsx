@@ -15,6 +15,7 @@ export default function Home() {
   const [ customizeLink, setCustomizeLink ] = useState<string>("")
   const [ userIp, setUserIp ] = useState<string>("")
   const [ shortUrl, setShortUrl ] = useState<string>("")
+  const [ loading, setLoading ] = useState<boolean>(true)
   const [ error, setError ] = useState<Error>({ error: false, message: "" })
   const router = useRouter()
 
@@ -53,34 +54,52 @@ export default function Home() {
 
         setShortUrl(jsonData.shortUrl)
 
-        if (jsonData.success == true) {
-            Swal.mixin({
-              toast: true,
-              position: "top-end",
-              showConfirmButton: false,
-              timer: 3000,
-              didOpen: (toast) => {
-                  toast.onmouseenter = Swal.stopTimer;
-                  toast.onmouseleave = Swal.resumeTimer
-              }
+        if (loading == true) {
+          Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer
+            }
           }).fire({
-              icon: "success",
-              html: `<div><h1 class='text-[#a5dc86] font-bold'>Success</h1><p class='text-white/80'>${jsonData.message}</p></div>`
+              icon: "info",
+              html: `<div><h1 class='text-[#f9adfb] font-bold'>Info</h1><p class='text-white/80'>กำลังสร้างลิ้งค์ให้คุณ โปรดรอสักครู่...</p></div>`
+          })
+        }
+        
+
+        if (jsonData.success == true) {
+              setLoading(false)
+              Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer
+                }
+            }).fire({
+                icon: "success",
+                html: `<div><h1 class='text-[#a5dc86] font-bold'>Success</h1><p class='text-white/80'>${jsonData.message}</p></div>`
+            })
+
+            const confirmResult = await Swal.fire({
+              title: "คุณต้องการไปที่งลิ้งค์นี้เลยไหม",
+              text: `ลิ้งค์สำหรับเข้าเว็บครั้งถัดไป https://ttshort.vercel.app/${jsonData.link}`,
+              icon: "info",
+              showCancelButton: false,
+              showConfirmButton: true,
+              cancelButtonColor: "#fff",
+              confirmButtonText: "ไปเลยย!!!",
           })
 
-          const confirmResult = await Swal.fire({
-            title: "คุณต้องการไปที่งลิ้งค์นี้เลยไหม",
-            text: `ลิ้งค์สำหรับเข้าเว็บครั้งถัดไป https://ttshort.vercel.app/${jsonData.link}`,
-            icon: "info",
-            showCancelButton: false,
-            showConfirmButton: true,
-            cancelButtonColor: "#fff",
-            confirmButtonText: "ไปเลยย!!!",
-        })
-
-        if (confirmResult.isConfirmed === true) {
-            return router.push(`/${jsonData.shortUrl}`)
-        }
+          if (confirmResult.isConfirmed === true) {
+              return router.push(`/${jsonData.shortUrl}`)
+          }
         }
 
         if (jsonData.success == false) {
