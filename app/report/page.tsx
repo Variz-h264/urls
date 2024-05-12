@@ -4,7 +4,7 @@ import { useEffect } from "react"
 import { useRouter  } from "next/navigation"
 import Swal from "sweetalert2"
 
-const report = () => {
+export default function Report() {
     const router = useRouter()
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const report = () => {
         }
 
         comingSoon()
-    }, [])
+    })
 
   return (
     <>
@@ -35,6 +35,4 @@ const report = () => {
       </div>
     </>
   );
-};
-
-export default report;
+}

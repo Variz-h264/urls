@@ -10,7 +10,7 @@ interface Error {
   message: string
 }
 
-const home = () => {
+export default function Home() {
   const [ originalUrl, setOriginalUrl ] = useState<string>("")
   const [ customizeLink, setCustomizeLink ] = useState<string>("")
   const [ userIp, setUserIp ] = useState<string>("")
@@ -168,5 +168,3 @@ const home = () => {
     </>
   )
 }
-
-export default home

@@ -15,7 +15,7 @@ interface shortUrl {
   updatedAt: Date  
 }
 
-const redirectPage = ({ params }: { params: { shorturl: string } }) => {
+export default function Redirect ({ params }: { params: { shorturl: string } }) {
     const [originalUrl, setOriginalUrl] = useState<string>("ไม่พบลิ้งค์ของคุณ")
     const router = useRouter()
 
@@ -50,7 +50,7 @@ const redirectPage = ({ params }: { params: { shorturl: string } }) => {
         }
 
         checkLink()
-    }, [])
+    })
   return (
     <>
       <div className="rounded-md bg-white px-10 py-5">
@@ -64,5 +64,3 @@ const redirectPage = ({ params }: { params: { shorturl: string } }) => {
     </>
   )
 }
-
-export default redirectPage
