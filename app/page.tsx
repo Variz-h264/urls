@@ -42,6 +42,15 @@ export default function Home() {
 
     const send = async (userIp: string) => {
       try {
+        await Swal.fire({
+          title: "โปรดรอสักครู่...",
+          text: "ระบบกำลังสร้างลิ้งค์ให้คุณ",
+          icon: "info",
+          timer: 1500,
+          showCancelButton: false,
+          showConfirmButton: false,
+        })
+
         const res = await fetch('/api/short', {
           method: "POST",
           headers: {
@@ -53,17 +62,6 @@ export default function Home() {
         const jsonData = await res.json()
 
         setShortUrl(jsonData.shortUrl)
-
-
-        await Swal.fire({
-          title: "โปรดรอสักครู่...",
-          text: "ระบบกำลังสร้างลิ้งค์ให้คุณ",
-          icon: "info",
-          timer: 1500,
-          showCancelButton: false,
-          showConfirmButton: false,
-      })
-
 
         if (jsonData.success == true) {
             setLoading(false)
