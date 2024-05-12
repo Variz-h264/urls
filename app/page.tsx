@@ -15,7 +15,6 @@ export default function Home() {
   const [ customizeLink, setCustomizeLink ] = useState<string>("")
   const [ userIp, setUserIp ] = useState<string>("")
   const [ shortUrl, setShortUrl ] = useState<string>("")
-  const [ loading, setLoading ] = useState<boolean>(true)
   const [ error, setError ] = useState<Error>({ error: false, message: "" })
   const router = useRouter()
 
@@ -42,14 +41,19 @@ export default function Home() {
 
     const send = async (userIp: string) => {
       try {
-        await Swal.fire({
-          title: "โปรดรอสักครู่...",
-          text: "ระบบกำลังสร้างลิ้งค์ให้คุณ",
-          icon: "info",
-          timer: 1500,
-          showCancelButton: false,
+        Swal.mixin({
+          toast: true,
+          position: "top-end",
           showConfirmButton: false,
-        })
+          timer: 3000,
+          didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer
+          }
+      }).fire({
+          icon: "info",
+          html: `<div><h1 class='text-[#9de0f6] font-bold'>Loading</h1><p class='text-white/80'>โปรดรอสักครู่ ระบบกำลังสร้างลิ้งค์ให้กับคุณ...</p></div>`
+      })
 
         const res = await fetch('/api/short', {
           method: "POST",
@@ -64,7 +68,6 @@ export default function Home() {
         setShortUrl(jsonData.shortUrl)
 
         if (jsonData.success == true) {
-            setLoading(false)
             const confirmResult = await Swal.fire({
               title: "คุณต้องการไปที่งลิ้งค์นี้เลยไหม",
               text: `ลิ้งค์สำหรับเข้าเว็บครั้งถัดไป https://ttshort.vercel.app/${jsonData.link}`,
