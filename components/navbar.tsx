@@ -1,15 +1,12 @@
 "use client";
 
-import { useRouter  } from "next/navigation"
 import Link from "next/link"
 import Swal from "sweetalert2"
 
 
 const navbar = () => {
-    const router = useRouter()
-
     const update = async () => {
-        const confirmResult = await Swal.fire({
+        await Swal.fire({
             title: "แจ้งเตือนผู้ใช้",
             text: "ตอนนี้ทางทีม ttbyte ยังไม่ได้เปิดให้ใช้บริการ เราจะเปิดให้บริการในเร็วๆนี้!",
             icon: "warning",
@@ -18,11 +15,7 @@ const navbar = () => {
             cancelButtonColor: "#fff",
             confirmButtonText: "รับทราบ",
         });
-
-        if (confirmResult.isConfirmed === true) {
-            router.push("/")
-        }
-        }
+    }
   return (
     <>  
         <nav className="flex flex-row justify-between items-center rounded-b-lg rounded-t-none bg-white px-10 py-3 mb-14">
