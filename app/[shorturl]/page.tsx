@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter  } from "next/navigation"
+import Image from "next/image"
 import Swal from "sweetalert2"
 
 interface shortUrl {
@@ -58,7 +59,7 @@ export default function Redirect ({ params }: { params: { shorturl: string } }) 
         <hr  className="mb-5"/>
 
         <div className="flex flex-col justify-center items-center">
-          <img className="h-[700px] w-[700px]" src="https://gifdb.com/images/high/happy-cat-working-on-computer-cartoon-c2cinzv2rijwf3en.gif" alt="" />
+          <Image src="/images/loading.gif" alt="" width={600} height={600} />
         </div>
       </div>
     </>
